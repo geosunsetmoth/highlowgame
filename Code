@@ -1,0 +1,107 @@
+using System;
+ 
+namespace HelloWorld
+{
+    public class Program
+    {
+        public static int guess;
+        public static int mysteryNumber;
+        public static Random goofy = new Random();
+
+
+        static void Main(string[] args)
+        {
+            intro();
+
+        }
+
+        static private void intro ()
+        {
+            string uselessInfo;
+            mysteryNumber = goofy.Next(1, 1000);
+
+            Console.WriteLine("Hey, welcome to my high-low game! It's a challenge for you, but technically it's a challnge for myself too." +
+                "\nYou see, I wanna start building my survival-something-simulator-something-something on Unity, right? \nAnd I need to learn how to code?" +
+                "\nWell, I don't know how to code. \nSo a very nice person at the Game Dev discord server told me to challenge myself to do a \"high-low game\". \nAnd now you're here." +
+                "\n...\nSo tell me, young traveller, what's your name?\n");
+
+            uselessInfo = Console.ReadLine();
+            Console.WriteLine("\nCool. " + uselessInfo + ", is it? I don't really care, to be fair. Just felt right to ask." +
+                "\nNow press any key. Nothing will happen, but it makes me feel like a proper NPC when I ask you to press a key.\n");
+
+            Console.ReadKey();
+            Console.WriteLine("\n\nNice, yeah, that's what I was waiting for." +
+                "\nOk, ok, let's play the game. I just thought of a number. It would be awesome if you could guess it." +
+                "\nGo on. Guess it. Guess it. Guess it. We're all waiting for you, BRIAN. Or SUSAN. Or whatever.\n");
+
+            getNumber();
+        }
+
+        static private void getNumber()
+        {
+            string input = Console.ReadLine();
+            try
+            {
+                guess = Convert.ToInt32(input);
+            }
+
+            catch (FormatException)
+            {
+                Console.WriteLine("\nCome on bro, you're not even trying!\n");
+                getNumber();
+            }
+
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nNo, no, that's WAY too high. Try something under, like... 2,147,483,647.\n" +
+                    "That's just an arbitrary cut-off number I picked. Don't worry about it.\n");
+                getNumber();
+            }
+
+            checkResult();
+        }
+
+        static private void checkResult()
+        {
+            if (guess == mysteryNumber)
+            {
+                Console.WriteLine("\nAYOOOOOOOO NICE!" +
+                    "\nYou got it, the mystery number was " + mysteryNumber + "." +
+                    "\nYou managed to outsmart a computer, you're better than ANY chess player." +
+                    "\nPress any key to play again!");
+                Console.ReadLine();
+                intro();
+            }
+
+            else if (guess < mysteryNumber)
+            {
+                string[] responses =
+                {
+                "\nOk, almost there, but it's a little too low. Try again, but higher.\n",
+                "\nCold, cold, cold. You can still get higher.\n",
+                "\nIt's a little too low. Try again!\n"
+                };
+
+                int index = goofy.Next(0, 3);
+                Console.WriteLine(responses[index]);
+
+                getNumber();
+            }
+
+            else if (guess > mysteryNumber)
+            {
+                string[] responses =
+                {
+                "\nNah, nah, nah. Don't play Icarus, you aimed a little too high. Try lower next time.\n",
+                "\nIt's a home run! But we are playing soccer, you gotta shoot lower. Try again.\n",
+                "\nI've seen Seth Rogen characters that were less high than your guess. But you can do it!\n"
+                };
+
+                int index = goofy.Next(0, 3);
+                Console.WriteLine(responses[index]);
+
+                getNumber();
+            }
+        }
+    }
+}
